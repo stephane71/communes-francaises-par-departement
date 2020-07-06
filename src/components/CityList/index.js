@@ -9,8 +9,11 @@ function CityList({ cityList }) {
     <List>
       {cityList.map(city => (
         <ListItem key={city.code} button>
-          <ListItemText primary={city.nom} secondary={city.code} />
-          <span>{city.population}</span>
+          <ListItemText
+            primary={city.nom}
+            secondary={new Intl.NumberFormat("fr-FR").format(city.code)}
+          />
+          <span>{new Intl.NumberFormat("fr-FR").format(city.population)}</span>
         </ListItem>
       ))}
     </List>
