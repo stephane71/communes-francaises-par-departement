@@ -161,12 +161,14 @@ function Index() {
               <IconButton
                 aria-label="Trie par population"
                 onClick={handleSortByPopulation}
+                disabled
               >
                 <SortIcon />
               </IconButton>
               <IconButton
                 aria-label="Trie alphabetique"
                 onClick={handleSortByName}
+                disabled
               >
                 <SortByAlphaIcon />
               </IconButton>
