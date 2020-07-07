@@ -97,7 +97,9 @@ function Index() {
 
   useEffect(() => {
     setFilteredCities(
-      cities.filter(city => city[CITY_POPULATION_ATTRIBUTE] >= population)
+      cities
+        .filter(city => city[CITY_POPULATION_ATTRIBUTE] >= population)
+        .sort(getSortFunction(sortBy, order))
     );
   }, [population, cities]);
 
@@ -110,14 +112,17 @@ function Index() {
     setPopulation(value);
   }
 
-  const handleSort = type => () => {
-    if (type === sortBy) {
-      setOrder(order === 1 ? -1 : 1);
-    }
+  function handleChangeSort(type) {
+    const sortedCities = filteredCities.sort(getSortFunction(type, order));
     setSortBy(type);
+    setFilteredCities(sortedCities);
+  }
 
-    setFilteredCities(filteredCities.sort(getSortFunction(sortBy, order)));
-  };
+  function handleChangeOrder() {
+    const orderedCities = filteredCities.reverse();
+    setOrder(order === 1 ? -1 : 1);
+    setFilteredCities(orderedCities);
+  }
 
   return (
     <Container maxWidth="md" className={classes.index}>
@@ -153,8 +158,9 @@ function Index() {
           <ResultsToolbar
             loading={loading}
             results={{ filtered: filteredCities.length, all: cities.length }}
-            onClickSort={handleSort(CITY_POPULATION_ATTRIBUTE)}
-            onClickSortAlpha={handleSort(CITY_NAME_ATTRIBUTE)}
+            values={{ sortBy, order }}
+            onChangeSort={handleChangeSort}
+            onChangeOrder={handleChangeOrder}
           />
         </div>
 
