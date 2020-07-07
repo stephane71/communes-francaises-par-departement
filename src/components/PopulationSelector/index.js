@@ -12,6 +12,7 @@ function PopulationSelector({ value, onChange }) {
       margin="dense"
       type="number"
       min={0}
+      fullWidth
     />
   );
 }
