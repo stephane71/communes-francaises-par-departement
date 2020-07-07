@@ -3,16 +3,12 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
-import SortIcon from "@material-ui/icons/Sort";
-import SortByAlphaIcon from "@material-ui/icons/SortByAlpha";
-
-import departmentList from "../../public/departments.json";
+import departmentList from "public/departments.json";
 import DepartmentSelector from "src/components/DepartmentSelector";
 import PopulationSelector from "src/components/PopulationSelector";
 import CityList from "src/components/CityList";
+import ResultsToolbar from "src/components/ResultsToolbar";
 
 const DEFAULT_DEPARTMENT = departmentList.find(({ code }) => code === "78");
 const DEFAULT_POPULATION = 20000;
@@ -60,15 +56,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     height: "100%",
     overflow: "auto"
-  },
-
-  resultsToolbar: {
-    display: "flex",
-    alignItems: "center"
-  },
-
-  resultsToolbarSortActions: {
-    marginLeft: theme.spacing(3)
   },
 
   divider: {
@@ -151,36 +138,16 @@ function Index() {
               onChange={handleChangePopulation}
             />
           </div>
-          <div className={classes.resultsToolbar}>
-            {loading ? (
-              <CircularProgress size={25} />
-            ) : (
-              <span>
-                {filteredCities.length} / {cities.length} communes
-              </span>
-            )}
-            <div className={classes.resultsToolbarSortActions}>
-              <IconButton
-                aria-label="Trie par population"
-                onClick={handleSortByPopulation}
-                disabled
-              >
-                <SortIcon />
-              </IconButton>
-              <IconButton
-                aria-label="Trie alphabetique"
-                onClick={handleSortByName}
-                disabled
-              >
-                <SortByAlphaIcon />
-              </IconButton>
-            </div>
-          </div>
+          <ResultsToolbar
+            loading={loading}
+            results={{ filtered: filteredCities.length, all: cities.length }}
+            onClickSort={handleSortByName}
+            onClickSortAlpha={handleSortByPopulation}
+          />
         </div>
 
         <div className={classes.resultList}>
-          {!loading && !filteredCities.length && <div>Pas de résultats</div>}
-          {<CityList cityList={filteredCities} />}
+          <CityList cityList={filteredCities} />
         </div>
       </main>
     </div>
