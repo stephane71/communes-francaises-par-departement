@@ -10,6 +10,9 @@ import PopulationSelector from "src/components/PopulationSelector";
 import CityList from "src/components/CityList";
 import ResultsToolbar from "src/components/ResultsToolbar";
 
+import getSortFunction from "src/utils/getSortFunction";
+import { CITY_POPULATION_ATTRIBUTE, CITY_NAME_ATTRIBUTE } from "src/enums";
+
 const DEFAULT_DEPARTMENT = departmentList.find(({ code }) => code === "78");
 const DEFAULT_POPULATION = 20000;
 
@@ -74,6 +77,8 @@ function Index() {
   const [selectedDepartment, setSelectedDepartment] = useState(
     DEFAULT_DEPARTMENT
   );
+  const [sortBy, setSortBy] = useState("population");
+  const [order, setOrder] = useState(1);
 
   useEffect(() => {
     if (selectedDepartment && selectedDepartment.code) {
@@ -90,7 +95,9 @@ function Index() {
   }, [selectedDepartment]);
 
   useEffect(() => {
-    setFilteredCities(cities.filter(city => city.population >= population));
+    setFilteredCities(
+      cities.filter(city => city[CITY_POPULATION_ATTRIBUTE] >= population)
+    );
   }, [population, cities]);
 
   function handleChangeDepartment(event, value) {
@@ -102,9 +109,14 @@ function Index() {
     setPopulation(value);
   }
 
-  function handleSortByPopulation() {}
+  const handleSort = type => () => {
+    if (type === sortBy) {
+      setOrder(order === 1 ? -1 : 1);
+    }
+    setSortBy(type);
 
-  function handleSortByName() {}
+    setFilteredCities(filteredCities.sort(getSortFunction(sortBy, order)));
+  };
 
   return (
     <div className={classes.index}>
@@ -118,8 +130,7 @@ function Index() {
             Les communes françaises
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            Rechercher la liste des communes par département selon leur
-            population
+            Rechercher la liste des communes par département
           </Typography>
         </header>
 
@@ -141,8 +152,8 @@ function Index() {
           <ResultsToolbar
             loading={loading}
             results={{ filtered: filteredCities.length, all: cities.length }}
-            onClickSort={handleSortByName}
-            onClickSortAlpha={handleSortByPopulation}
+            onClickSort={handleSort(CITY_POPULATION_ATTRIBUTE)}
+            onClickSortAlpha={handleSort(CITY_NAME_ATTRIBUTE)}
           />
         </div>
 
