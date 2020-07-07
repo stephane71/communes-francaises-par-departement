@@ -5,6 +5,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 function CityList({ cityList }) {
+  if (!cityList.length) {
+    return <div>Pas de résultats</div>;
+  }
+
   return (
     <List>
       {cityList.map(city => (
