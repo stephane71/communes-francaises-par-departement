@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 
 import IconButton from "@material-ui/core/IconButton";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SortIcon from "@material-ui/icons/Sort";
-import SortByAlphaIcon from "@material-ui/icons/SortByAlpha";
+
+import SortSelector from "src/components/SortSelector";
 
 const useStyles = makeStyles(theme => ({
   resultsToolbar: {
@@ -14,13 +16,22 @@ const useStyles = makeStyles(theme => ({
   },
 
   resultsToolbarSortActions: {
+    display: "flex",
+    alignItems: "flex-end",
     marginLeft: theme.spacing(3)
   }
 }));
 
-function ResultsToolbar({ loading, results, onClickSort, onClickSortAlpha }) {
+function ResultsToolbar({
+  loading,
+  results,
+  values,
+  onChangeOrder,
+  onChangeSort
+}) {
   const classes = useStyles();
   const { filtered, all } = results;
+  const { sortBy, order } = values;
 
   return (
     <div className={classes.resultsToolbar}>
@@ -32,11 +43,9 @@ function ResultsToolbar({ loading, results, onClickSort, onClickSortAlpha }) {
         </span>
       )}
       <div className={classes.resultsToolbarSortActions}>
-        <IconButton aria-label="Trie par population" onClick={onClickSort}>
-          <SortIcon />
-        </IconButton>
-        <IconButton aria-label="Trie alphabétique" onClick={onClickSortAlpha}>
-          <SortByAlphaIcon />
+        <SortSelector value={sortBy} onChange={onChangeSort} />
+        <IconButton onClick={onChangeOrder} size="small">
+          {order === 1 ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
         </IconButton>
       </div>
     </div>
@@ -49,8 +58,12 @@ ResultsToolbar.propTypes = {
     filtered: PropTypes.number,
     all: PropTypes.number
   }),
-  onClickSort: PropTypes.func,
-  onClickSortAlpha: PropTypes.func
+  values: PropTypes.exact({
+    sortBy: PropTypes.string,
+    order: PropTypes.number
+  }),
+  onChangeSort: PropTypes.func,
+  onChangeOrder: PropTypes.func
 };
 
 export default ResultsToolbar;
