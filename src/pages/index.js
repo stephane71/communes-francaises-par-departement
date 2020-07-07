@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 import departmentList from "public/departments.json";
 import DepartmentSelector from "src/components/DepartmentSelector";
@@ -119,7 +120,7 @@ function Index() {
   };
 
   return (
-    <div className={classes.index}>
+    <Container maxWidth="md" className={classes.index}>
       <Head>
         <title>Les communes françaises</title>
       </Head>
@@ -161,7 +162,7 @@ function Index() {
           <CityList cityList={filteredCities} />
         </div>
       </main>
-    </div>
+    </Container>
   );
 }
 
