@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import AppBar from "@material-ui/core/AppBar";
 
 import departmentList from "public/departments.json";
 import DepartmentSelector from "src/components/DepartmentSelector";
@@ -28,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     flex: 1,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    position: "relative"
   },
 
   header: {
@@ -44,6 +46,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     height: "100%",
     overflow: "auto"
+  },
+
+  appBar: {
+    top: "auto",
+    bottom: 0,
+    padding: theme.spacing(2)
   }
 }));
 
@@ -113,35 +121,36 @@ function Index() {
         </header>
 
         <Grid container spacing={2}>
-          <Grid item xs={12} md={7}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={8}>
-                <DepartmentSelector
-                  value={selectedDepartment}
-                  onChange={handleChangeDepartment}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <PopulationSelector
-                  value={population}
-                  onChange={handleChangePopulation}
-                />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={8}>
+            <DepartmentSelector
+              value={selectedDepartment}
+              onChange={handleChangeDepartment}
+            />
           </Grid>
-          <Grid item xs={12} md={5} className={classes.results}>
-            <ResultsToolbar
-              loading={loading}
-              results={{ filtered: filteredCities.length, all: cities.length }}
-              values={{ sortBy, order }}
-              onChangeSort={handleChangeSort}
-              onChangeOrder={handleChangeOrder}
+          <Grid item xs={12} sm={4}>
+            <PopulationSelector
+              value={population}
+              onChange={handleChangePopulation}
             />
           </Grid>
         </Grid>
 
         <div className={classes.resultList}>
           <CityList cityList={filteredCities} />
+          <AppBar position="fixed" color="default" className={classes.appBar}>
+            <Container maxWidth="md">
+              <ResultsToolbar
+                loading={loading}
+                results={{
+                  filtered: filteredCities.length,
+                  all: cities.length
+                }}
+                values={{ sortBy, order }}
+                onChangeSort={handleChangeSort}
+                onChangeOrder={handleChangeOrder}
+              />
+            </Container>
+          </AppBar>
         </div>
       </main>
     </Container>
