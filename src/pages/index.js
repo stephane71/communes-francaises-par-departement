@@ -77,7 +77,7 @@ function Index() {
   const [selectedDepartment, setSelectedDepartment] = useState(
     DEFAULT_DEPARTMENT
   );
-  const [sortBy, setSortBy] = useState("population");
+  const [sortBy, setSortBy] = useState(CITY_NAME_ATTRIBUTE);
   const [order, setOrder] = useState(1);
 
   useEffect(() => {
