@@ -32,18 +32,10 @@ function ResultsToolbar({ loading, results, onClickSort, onClickSortAlpha }) {
         </span>
       )}
       <div className={classes.resultsToolbarSortActions}>
-        <IconButton
-          aria-label="Trie par population"
-          onClick={onClickSort}
-          disabled
-        >
+        <IconButton aria-label="Trie par population" onClick={onClickSort}>
           <SortIcon />
         </IconButton>
-        <IconButton
-          aria-label="Trie alphabétique"
-          onClick={onClickSortAlpha}
-          disabled
-        >
+        <IconButton aria-label="Trie alphabétique" onClick={onClickSortAlpha}>
           <SortByAlphaIcon />
         </IconButton>
       </div>
