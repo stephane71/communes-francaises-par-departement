@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 
 import departmentList from "public/departments.json";
 import DepartmentSelector from "src/components/DepartmentSelector";
@@ -28,42 +28,22 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     flex: 1,
     display: "flex",
-    flexDirection: "column",
-    padding: theme.spacing(2)
+    flexDirection: "column"
   },
 
-  toolbar: {
-    display: "flex",
-    alignItems: "stretch",
-    justifyContent: "space-between"
-  },
-
-  form: {
-    display: "flex",
-    alignItems: "center"
-  },
-
-  formDepartment: {
-    marginRight: theme.spacing(2)
+  header: {
+    paddingTop: theme.spacing(2)
   },
 
   results: {
-    flexGrow: 1,
-    height: "100%",
     display: "flex",
-    flexDirection: "column",
-    overflow: "auto"
+    justifyContent: "flex-end"
   },
 
   resultList: {
     flexGrow: 1,
     height: "100%",
     overflow: "auto"
-  },
-
-  divider: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(5)
   }
 }));
 
@@ -126,38 +106,39 @@ function Index() {
   return (
     <Container maxWidth="md" className={classes.index}>
       <main className={classes.main}>
-        <header>
+        <header className={classes.header}>
           <Typography gutterBottom variant="h4" component="h1">
             Les Communes
           </Typography>
-          <Typography color="textSecondary" variant="body2">
-            Rechercher la liste des communes par département
-          </Typography>
         </header>
 
-        <Divider className={classes.divider} />
-
-        <div className={classes.toolbar}>
-          <div className={classes.form}>
-            <div className={classes.formDepartment}>
-              <DepartmentSelector
-                value={selectedDepartment}
-                onChange={handleChangeDepartment}
-              />
-            </div>
-            <PopulationSelector
-              value={population}
-              onChange={handleChangePopulation}
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={7}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={8}>
+                <DepartmentSelector
+                  value={selectedDepartment}
+                  onChange={handleChangeDepartment}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <PopulationSelector
+                  value={population}
+                  onChange={handleChangePopulation}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={5} className={classes.results}>
+            <ResultsToolbar
+              loading={loading}
+              results={{ filtered: filteredCities.length, all: cities.length }}
+              values={{ sortBy, order }}
+              onChangeSort={handleChangeSort}
+              onChangeOrder={handleChangeOrder}
             />
-          </div>
-          <ResultsToolbar
-            loading={loading}
-            results={{ filtered: filteredCities.length, all: cities.length }}
-            values={{ sortBy, order }}
-            onChangeSort={handleChangeSort}
-            onChangeOrder={handleChangeOrder}
-          />
-        </div>
+          </Grid>
+        </Grid>
 
         <div className={classes.resultList}>
           <CityList cityList={filteredCities} />
