@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
@@ -126,14 +125,10 @@ function Index() {
 
   return (
     <Container maxWidth="md" className={classes.index}>
-      <Head>
-        <title>Les communes françaises</title>
-      </Head>
-
       <main className={classes.main}>
         <header>
           <Typography gutterBottom variant="h4" component="h1">
-            Les communes françaises
+            Les Communes
           </Typography>
           <Typography color="textSecondary" variant="body2">
             Rechercher la liste des communes par département
