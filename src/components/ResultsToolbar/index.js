@@ -12,7 +12,8 @@ import SortSelector from "src/components/SortSelector";
 const useStyles = makeStyles(theme => ({
   resultsToolbar: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
 
   resultsToolbarSortActions: {
