@@ -4,6 +4,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 
 import departmentList from "public/departments.json";
+import { CITY_NAME_ATTRIBUTE } from "../../enums";
 
 function DepartmentSelector({ value, onChange }) {
   return (
@@ -16,10 +17,10 @@ function DepartmentSelector({ value, onChange }) {
       autoHighlight
       disableClearable
       size="small"
-      getOptionLabel={option => option.nom}
+      getOptionLabel={option => option[CITY_NAME_ATTRIBUTE]}
       renderOption={option => (
         <React.Fragment>
-          <span>{option.code}</span> - {option.nom}
+          <span>{option.code}</span> - {option[CITY_NAME_ATTRIBUTE]}
         </React.Fragment>
       )}
       renderInput={params => (
