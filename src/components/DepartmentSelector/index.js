@@ -12,7 +12,7 @@ function DepartmentSelector({ value, onChange }) {
       id="department-autocomplete"
       value={value}
       onChange={onChange}
-      style={{ width: 300 }}
+      style={{ minWidth: 200 }}
       options={departmentList}
       autoHighlight
       disableClearable
