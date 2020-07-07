@@ -155,7 +155,9 @@ function Index() {
             {loading ? (
               <CircularProgress size={25} />
             ) : (
-              <span>{filteredCities.length} résultats</span>
+              <span>
+                {filteredCities.length} / {cities.length} communes
+              </span>
             )}
             <div className={classes.resultsToolbarSortActions}>
               <IconButton
